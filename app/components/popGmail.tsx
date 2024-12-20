@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import forge from 'node-forge';
+import emailjs from '@emailjs/browser';
 
 interface PopGmailProps {
   isOpen: boolean;
@@ -11,7 +12,7 @@ const PopGmail: React.FC<PopGmailProps> = ({ isOpen, onClose }) => {
 
   const [activeTab, setActiveTab] = useState(1);
   const [sender, setSender] = useState<string>('');
-  const [receiver, setReceiver] = useState<string>('');
+  const [receiver, setReceiver] = useState<string>('alizahra2403@gmail.com');
   const [subject, setSubject] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [encryptedMessage, setEncryptedMessage] = useState<string>('');
@@ -21,13 +22,60 @@ const PopGmail: React.FC<PopGmailProps> = ({ isOpen, onClose }) => {
   const [publicKey, setPublicKey] = useState<any>(null);
 
   useEffect(() => {
-    const { pki } = forge;
-    const { privateKey, publicKey } = pki.rsa.generateKeyPair(2048);
-    setPrivateKey(privateKey);
-    setPublicKey(publicKey);
+    try {
+      const { pki } = forge;
+      const { privateKey, publicKey } = pki.rsa.generateKeyPair(2048);
+      setPrivateKey(privateKey);
+      setPublicKey(publicKey);
+    } catch (error) {
+      console.error("Error generating RSA keys:", error);
+    }
   }, []);
 
   const [sentTime, setSentTime] = useState<string>('');
+
+  // Hardcoded 
+  const EMAILJS_SERVICE_ID = 'service_3tv1id7';
+  const EMAILJS_TEMPLATE_ID = 'template_3suedvr';
+  const EMAILJS_PUBLIC_KEY = 'UGHB6U5V8nM-wIrq7';
+
+  const sendEmail = () => {
+    if (!sender || !receiver || !message) {
+      alert("Semua kolom wajib diisi!");
+      return;
+    }
+
+    const templateParams = {
+      to_name: receiver,
+      from_name: sender,
+      subject: subject || "Pesan Simulasi RSA",
+      encrypted_message: encryptedMessage || "Pesan belum dienkripsi",
+    };
+
+    console.log("Service ID:", EMAILJS_SERVICE_ID);
+    console.log("Template ID:", EMAILJS_TEMPLATE_ID);
+    console.log("Public Key:", EMAILJS_PUBLIC_KEY);
+    console.log("Template Params:", templateParams);
+
+    emailjs
+      .send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      )
+      .then(
+        () => {
+          alert("Pesan berhasil dikirim!");
+          setSentTime(new Date().toLocaleString());
+        },
+        (error) => {
+          alert("Gagal mengirim pesan! Coba lagi.");
+          console.error("EmailJS Error:", error);
+          console.error("Detailed Error:", error.text);
+        }
+      );
+  };
 
   const handleSend = () => {
     if (!sender || !receiver || !message) {
@@ -38,8 +86,11 @@ const PopGmail: React.FC<PopGmailProps> = ({ isOpen, onClose }) => {
     const encrypted = publicKey.encrypt(message);
     setEncryptedMessage(forge.util.encode64(encrypted));
     setDecryptedMessage('');
+
+    // Kirim email setelah pesan berhasil dienkripsi
+    sendEmail();  // Mengirim email melalui EmailJS
+
     setSentTime(new Date().toLocaleString());
-    alert("Pesan berhasil dikirim!");
   };
 
   const handleReceive = () => {
@@ -143,6 +194,7 @@ const PopGmail: React.FC<PopGmailProps> = ({ isOpen, onClose }) => {
                 >
                   Kirim Pesan
                 </button>
+
                 <button
                   className="w-full md:w-1/2 bg-black text-white px-4 py-2 rounded"
                   onClick={onClose}
@@ -180,12 +232,21 @@ const PopGmail: React.FC<PopGmailProps> = ({ isOpen, onClose }) => {
                 <p className="text-white">{decryptedMessage ? decryptedMessage : "Pesan belum didekripsi"}</p>
               </div>
 
-              <button
-                className="w-full bg-green-600 text-white px-4 py-2 rounded mt-4"
-                onClick={handleReceive}
-              >
-                Terima Pesan
-              </button>
+              <div className="flex flex-col md:flex-row gap-4">
+                <button
+                  className="w-full md:w-1/2 bg-blue-600 text-white px-4 py-2 rounded"
+                  onClick={handleReceive}
+                >
+                  Terima dan Dekripsi
+                </button>
+
+                <button
+                  className="w-full md:w-1/2 bg-black text-white px-4 py-2 rounded"
+                  onClick={onClose}
+                >
+                  Tutup
+                </button>
+              </div>
             </div>
           )}
         </div>
