@@ -18,7 +18,7 @@ export default function Login() {
 
   const handleLogin = () => {
     if (password === correctPassword) {
-      router.replace("/terminal"); // Ganti router.push() dengan router.replace()
+      router.replace("/os"); // Ganti router.push() dengan router.replace()
     } else {
       alert("Incorrect password. Please try again.");
     }
