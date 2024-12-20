@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dubuntu",
-  description: "Dubuntu Terminal",
+  title: "CipherChain",
+  description: "CipherChain OS",
 };
 
 export default function RootLayout({

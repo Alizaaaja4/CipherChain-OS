@@ -24,12 +24,11 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string>(""); 
 
-
-  const directories = {
+  const directories: { [key: string]: string[] } = {
     root: ["ScryptoSim"],
-    ScryptoSim: ["rsa",],
+    ScryptoSim: ["rsa"],
     rsa: ["input", "process", "output"],
-  };
+  };  
 
   const terminalRef = useRef<HTMLDivElement>(null);
 
@@ -185,7 +184,7 @@ export default function Home() {
   
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative" style={{ backgroundImage: "url('/walpeper3.webp')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative" style={{ backgroundImage: "url('/walpeper4.avif')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="bg-black bg-opacity-55 text-[#00ff00] font-mono rounded-lg shadow-lg w-full max-w-3xl sm:w-full -mt-56">
         <div className="flex items-center bg-gray-800 px-4 py-2 rounded-t-lg">
           <div className="flex gap-2">

@@ -9,7 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState(""); 
   const router = useRouter();
 
-  const correctPassword = "dubuntu";
+  const correctPassword = "chainOS";
 
   useEffect(() => {
     const interval = setInterval(() => setDateTime(new Date()), 1000);
@@ -39,7 +39,7 @@ export default function Login() {
       </div>
 
       {/* Login Card */}
-      <div className="flex flex-col items-center space-y-6 bg-black/65 p-8 rounded-lg shadow-md w-full max-w-sm sm:max-w-md md:max-w-md">
+      <div className="flex flex-col items-center space-y-6 bg-black/65 p-8 rounded-lg shadow-md w-full max-w-sm sm:max-w-md md:max-w-xs">
         {/* User Avatar */}
         <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center">
           <img
@@ -65,10 +65,10 @@ export default function Login() {
 
         {/* Login Button */}
         <button
-          className="w-full px-4 py-2 bg-purple-700 text-white rounded-md hover:bg-purple-800 transition-all"
+          className="w-full px-4 py-2 bg-purple-700 text-white rounded-md hover:bg-purple-800 transition-all font-semibold"
           onClick={handleLogin}
         >
-          Login
+          start
         </button>
       </div>
 
