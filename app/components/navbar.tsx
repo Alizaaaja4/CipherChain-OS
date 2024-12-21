@@ -14,7 +14,7 @@ const Navbar = () => {
         
         {/* App logos */}
         <div className="flex items-center space-x-4">
-          <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.google.com" rel="noopener noreferrer">
             <img
               src="/google.png" // Assuming the image is in the 'public' folder
               alt="Google"
